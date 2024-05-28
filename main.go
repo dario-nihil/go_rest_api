@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/dario-nihil/go_rest_api/models"
@@ -27,10 +28,12 @@ func createEvent(context *gin.Context) {
 	err := context.ShouldBindJSON(&event)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": "Could not parse request data."})
+		fmt.Println(err)
 		return
 	}
 
 	event.ID = 1
 	event.UserID = 1
+	event.Save()
 	context.JSON(http.StatusCreated, gin.H{"message": "Event created!", "event": event})
 }
